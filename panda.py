@@ -4,10 +4,7 @@ from typing import List
 import config
 import json
 
-if config.MWS_username == "MWS_USERNAME":
-    raise Exception("Please enter your MWS username in config.py")
-
-resultsFile = f"{config.MWS_username}-results.json"
+resultsFile = f"{config.MWS_username or 'panda'}-results.json"
 
 
 
@@ -43,9 +40,9 @@ def guaranteed_harvest(growthRates: List[int], solution: List[int], iterations: 
     return guaranteedHarvest
 
 
-def write_dict(dict):
+def write_dict(results):
     with open(resultsFile, 'w', encoding="utf-8") as file:
-        json.dump(dict, file, sort_keys=True, indent=2)
+        json.dump(results, file, sort_keys=True, indent=2)
 
 
 def read_dict():
@@ -60,4 +57,3 @@ def write_results(plotName: str, guaranteedHarvest: int, solution: List[int]):
     results = read_dict()
     results[plotName] = guaranteedHarvest, solution
     write_dict(results)
-
